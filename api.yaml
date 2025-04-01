@@ -1,0 +1,190 @@
+openapi: 3.0.4
+info:
+  title: LangApp
+  description: |-
+    Приложение для изучения языка
+  termsOfService: https://www.back4app.com/terms-of-service.pdf
+  contact:
+    email: hello@world.ru
+  version: 1.0.00
+servers:
+  - url: https://saransk2025.skillmad.ru/api
+tags:
+  - name: user
+    description: Действия с пользователем
+  - name: words
+    description: Слова
+  - name: websocket
+    description: Сокеты
+paths:
+  /collections/users/records:
+    post:
+      tags:
+        - user
+      summary: Регистрация
+      operationId: createUser
+      requestBody:
+        description: Регистрация
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestRegister'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseRegister'
+        default:
+          description: Unexpected error
+  /collections/users/auth-with-password:
+    post:
+      tags:
+        - user
+      summary: Авторизация
+      operationId: auth
+      requestBody:
+        description: Регистрация
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestAuth'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAuth'
+        default:
+          description: Unexpected error
+  /collections/words/records:
+    get:
+      tags:
+        - words
+      summary: Получение слов
+      operationId: words
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAuth'
+        default:
+          description: Unexpected error
+      security:
+        - bearerHttpAuthentication: []
+  /api/realtime:
+    description: |
+      WebSocket-эндпоинт для реального времени в PocketBase.
+      Подключение: `new WebSocket('ws://your-pb-instance/api/realtime')`.
+    x-websocket: true  # Кастомное поле для обозначения WebSocket
+    parameters:
+      - name: token
+        in: query
+        description: Аутентификационный токен (если требуется)
+        required: false
+        schema:
+          type: string
+    # Можно описать сообщения (примерно)
+    get:
+      summary: Подключение к WebSocket
+      responses:
+        '101':
+          description: Switching Protocols (успешное подключение WebSocket)
+components:
+  securitySchemes:
+    bearerHttpAuthentication:
+      description: Bearer token using a JWT
+      type: http
+      scheme: Bearer
+  schemas:
+    RequestRegister:
+      type: object
+      properties:
+        email:
+          type: string
+          format: string
+          example: 'example@test.ru'
+        password:
+          type: string
+          format: string
+        passwordConfirm:
+          type: string
+          format: string
+    ResponseRegister:
+      type: object
+      properties:
+        avatar:
+          type: string
+        collectionId:
+          type: string
+        collectionName:
+          type: string
+        created:
+          type: string
+        emailVisibility:
+          type: boolean
+        firstname:
+          type: string
+        id:
+          type: string
+        lastname:
+          type: string
+        secondname:
+          type: string
+        total:
+          type: integer
+        updated:
+          type: string
+        verified:
+          type: boolean
+    RequestAuth:
+      type: object
+      properties:
+        identity:
+          type: string
+          format: string
+          example: 'example@test.ru'
+        password:
+          type: string
+          format: string
+    User:
+      type: object
+      properties:
+        avatar:
+          type: string
+        collectionId:
+          type: string
+        collectionName:
+          type: string
+        created:
+          type: string
+        email:
+          type: string
+        emailVisibility:
+          type: boolean
+        firstname:
+          type: string
+        id:
+          type: string
+        lastname:
+          type: string
+        secondname:
+          type: string
+        total:
+          type: integer
+        updated:
+          type: string
+        verified:
+          type: boolean
+    ResponseAuth:
+      type: object
+      properties:
+        record:
+          $ref: '#/components/schemas/User'
+        token:
+          type: string
+          format: string

@@ -14,6 +14,8 @@ tags:
     description: Действия с пользователем
   - name: words
     description: Слова
+  - name: animals
+    description: животные
   - name: websocket
     description: Сокеты
 paths:
@@ -127,7 +129,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ResponseAuth'
+                $ref: '#/components/schemas/ResponseWords'
         '400':
           description: '400'
           content:
@@ -136,8 +138,27 @@ paths:
                 $ref: '#/components/schemas/Error400'
         default:
           description: Unexpected error
-      security:
-        - bearerHttpAuthentication: []
+  /collections/animals/records:
+    get:
+      tags:
+        - animals
+      summary: Получение животных
+      operationId: animals
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAnimals'
+        '400':
+          description: '400'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error400'
+        default:
+          description: Unexpected error
   /api/realtime:
     description: |
       WebSocket-эндпоинт для реального времени в PocketBase.
@@ -279,4 +300,77 @@ components:
           example: "Failed to create record."
         data:
           type: object
-        
+    ResponseWords:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: integer
+        perPage:
+          type: integer
+          format: integer
+        totalPages:
+          type: integer
+          format: integer
+        totalItems:
+          type: integer
+          format: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Words'
+    ResponseAnimals:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: integer
+        perPage:
+          type: integer
+          format: integer
+        totalPages:
+          type: integer
+          format: integer
+        totalItems:
+          type: integer
+          format: integer
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/Animals'
+    Animals:
+      type: object
+      properties:
+        collectionId:
+          type: string
+        collectionName:
+          type: string
+        id:
+          type: string
+        field:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string
+    Words:
+      type: object
+      properties:
+        collectionId:
+          type: string
+        collectionName:
+          type: string
+        id:
+          type: string
+        transcription:
+          type: string
+        ru:
+          type: string
+        en:
+          type: string
+        ch:
+          type: string
+        created:
+          type: string
+        updated:
+          type: string

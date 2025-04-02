@@ -38,6 +38,28 @@ paths:
                 $ref: '#/components/schemas/ResponseRegister'
         default:
           description: Unexpected error
+    patch:
+      tags:
+        - user
+      summary: Изменение профиля
+      operationId: updateUser
+      requestBody:
+        description: Изменение профиля
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RequestUser'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          description: Unexpected error
+      security:
+        - bearerHttpAuthentication: []
   /collections/users/auth-with-password:
     post:
       tags:
@@ -188,3 +210,21 @@ components:
         token:
           type: string
           format: string
+    RequestUser:
+      type: object
+      properties:
+        avatar:
+          type: string
+          format: binary
+        email:
+          type: string
+        emailVisibility:
+          type: boolean
+        firstname:
+          type: string
+        lastname:
+          type: string
+        secondname:
+          type: string
+        total:
+          type: integer

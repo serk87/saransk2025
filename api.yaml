@@ -49,7 +49,7 @@ paths:
     patch:
       tags:
         - user
-      summary: Изменение профиля
+      summary: Изменение профиля. Endpoint будет выглядеть примерно так: /users/{userId}, где {userId} будет заменяться на фактический ID пользователя при вызове API.
       operationId: updateUser
       parameters:
         - in: path

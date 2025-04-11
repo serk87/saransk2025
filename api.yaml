@@ -51,6 +51,13 @@ paths:
         - user
       summary: Изменение профиля
       operationId: updateUser
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID пользователя
       requestBody:
         description: Изменение профиля
         content:

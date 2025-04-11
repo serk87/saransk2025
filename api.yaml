@@ -46,24 +46,11 @@ paths:
                 $ref: '#/components/schemas/Error400'
         default:
           description: Unexpected error
-    patch:
+    get:
       tags:
         - user
-      summary: Изменение профиля. Endpoint будет выглядеть примерно так: /users/{userId}, где {userId} будет заменяться на фактический ID пользователя при вызове API.
-      operationId: updateUser
-      parameters:
-        - in: path
-          name: userId
-          required: true
-          schema:
-            type: string
-          description: ID пользователя
-      requestBody:
-        description: Изменение профиля
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/RequestUser'
+      summary: Получение всех пользователей
+      operationId: listUsers
       responses:
         '200':
           description: successful operation
@@ -81,11 +68,25 @@ paths:
           description: Unexpected error
       security:
         - bearerHttpAuthentication: []
-    get:
+  /collections/users/records/{user_id}:
+    patch:
       tags:
         - user
-      summary: Получение всех пользователей
-      operationId: listUsers
+      summary: Изменение профиля.
+      operationId: updateUser
+      parameters:
+        - in: path
+          name: user_id
+          required: true
+          schema:
+            type: string
+          description: ID пользователя
+      requestBody:
+        description: Изменение профиля
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RequestUser'
       responses:
         '200':
           description: successful operation

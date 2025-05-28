@@ -308,7 +308,7 @@ paths:
       requestBody:
         description: Создание проекта
         content:
-          application/json:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/RequestProject'
       responses:

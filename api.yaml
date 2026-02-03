@@ -46,6 +46,7 @@ paths:
                 $ref: '#/components/schemas/Error400'
         default:
           description: Unexpected error
+  /api/collections/users/records/{id}:
     patch:
       tags:
         - user

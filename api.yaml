@@ -8,7 +8,7 @@ info:
     email: hello@world.ru
   version: 1.0.00
 servers:
-  - url: https://saransk2025.skillmad.ru/api
+  - url: https://api-junior.skillmad.ru/api
 tags:
   - name: user
     description: Действия с пользователем
